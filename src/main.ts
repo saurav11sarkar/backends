@@ -55,7 +55,15 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, swaggerConfig);
+  // Vercel's serverless bundle may omit Swagger UI's local static files.
+  const swaggerUiCdn = 'https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.31.0';
   SwaggerModule.setup('api/docs', app, document, {
+    customSiteTitle: 'Library Book Manager API',
+    customCssUrl: `${swaggerUiCdn}/swagger-ui.css`,
+    customJs: [
+      `${swaggerUiCdn}/swagger-ui-bundle.js`,
+      `${swaggerUiCdn}/swagger-ui-standalone-preset.js`,
+    ],
     swaggerOptions: { persistAuthorization: true },
   });
 
